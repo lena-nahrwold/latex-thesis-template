@@ -1,0 +1,160 @@
+\documentclass[ 
+    12pt,
+    bibliography=totoc,
+    listof=totoc
+]{scrbook}
+
+\usepackage{newtxtext,newtxmath} % Times New Roman
+\setkomafont{disposition}{\normalfont\bfseries}
+
+% use this declaration to set specific page margins
+%\usepackage[a4paper , lmargin = {2.7cm} , rmargin = {2.9cm} , tmargin = {2.7cm} , bmargin = {4.6cm} ]{geometry}
+\usepackage[
+  a4paper,
+  twoside,
+  inner=3.5cm,
+  outer=2.5cm,
+  top=2.5cm,
+  bottom=2.5cm
+]{geometry}
+
+\usepackage{setspace}
+\onehalfspacing
+ 
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{1.5em}  % line spacing
+
+\usepackage{footmisc}
+\usepackage{ragged2e} % for \justifying in footnotes
+
+\renewcommand{\footnotelayout}{\setstretch{1.0}\justifying\fontsize{10pt}{12pt}\selectfont} 
+
+\usepackage[ngerman, english]{babel}
+\usepackage[authoryear]{natbib} 
+%\usepackage{bibgerm}       		% german references
+\usepackage[T1]{fontenc} % german characters
+\usepackage{graphicx} 				% it's recommended to use PDF images but you can use JPG or PNG as well
+\usepackage{url}           		% format URLs
+\usepackage{hyperref}         % create hyperlinks
+\hypersetup{
+    breaklinks=true,
+    pdfborder={0 0 0}, % Optionally remove borders around links
+}
+\usepackage{listings, color}	% for source code
+\usepackage{subfig}		 				% two figures next to each other (example: figure 3a), figure 3b)
+\usepackage[
+  automark,
+  autooneside=false 
+]{scrlayer-scrpage}					% header and footer line
+\usepackage{todonotes}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\tikzset{
+  font={\fontsize{10pt}{12}\selectfont}}
+\lstset{inputencoding=utf8}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{enumitem} % in preamble
+\usepackage{microtype}
+
+% header and footer line - no header & footer line on pages where a new chapter starts
+%\pagestyle{scrheadings}
+%\ohead{\leftmark}
+%\ihead{Your Name}
+%\ofoot[]{\thepage}
+%\ifoot{Research Project Report}
+\clearpairofpagestyles
+\ihead{\leftmark}
+%\ohead{\ifstr{\rightmark}{\leftmark}{}{\rightmark}}
+%\ohead{Your Name - Master Thesis}
+\cfoot*{\pagemark}
+
+% set path where images are stored
+\graphicspath{{./img/}}
+
+\input{./misc/hyphenation} 					% use this file to set explicit hyphenations (doesn't seem to work correctly)
+
+% Change spacing around chapter title
+\RedeclareSectionCommand[
+  beforeskip=-3.5ex plus -1ex minus -.2ex,
+  afterskip=2.3ex plus .2ex
+]{chapter}
+
+\usepackage{caption}
+\captionsetup{font=small}        % or footnotesize, scriptsize, etc.
+
+\begin{document}
+% ---------------------------------------------------------------
+\frontmatter
+    % Temporarily change geometry for title page
+    \newgeometry{
+      a4paper,
+      inner=3.5cm,
+      outer=2.5cm,
+      top=2.5cm,
+      bottom=2.5cm
+    }
+
+    \pagestyle{empty}
+    \include{./misc/titlepage_wuls}   % page 1
+
+    \restoregeometry  % go back to the global margins
+    
+    \cleardoublepage
+    
+    \let\cleardoublepage\clearpage
+    
+    \clearpage
+    \input{./misc/declarations}       % page 3
+    \clearpage
+    
+    \null                             % blank page
+    \thispagestyle{empty}
+    \clearpage
+    
+    \input{./misc/abstract_wuls}      % page 5
+    \clearpage
+
+    %\null                             % blank page
+    %\thispagestyle{empty}
+    %\clearpage
+    \input{./misc/acknowledgements}
+    \clearpage
+    
+    \pagestyle{plain}                 % turn on roman numbering
+    \tableofcontents
+    \thispagestyle{empty}
+
+    \listoffigures
+    \listoftables
+    \input{./misc/acronyms}           
+    
+% --------------------------------------------------------------
+
+\mainmatter % comment single chapters for faster compilation
+    \input{./content/1-introduction/index}
+    \input{./content/2-methodology/index}
+    \input{./content/3-results/index}
+    \input{./content/4-discussion/index}
+    \input{./content/5-conclusion/index}
+
+% ---------------------------------------------------------------
+\backmatter % no page numbering from here
+    \let\cleardoublepage\clearpage 
+
+    \begingroup
+      \pagestyle{empty}  % no headers or footers, including page numbers
+      \bibliographystyle{apalike}
+      \bibliography{./bib/manual}
+    \endgroup
+
+    %\input{./misc/annex}
+
+    \include{./misc/archive}
+    \thispagestyle{empty}
+    \cleardoublepage
+
+\end{document}
